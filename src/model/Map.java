@@ -2,6 +2,8 @@ package model;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -51,14 +53,31 @@ public class Map {
         return map;
     }
 
+    public void romoveBlock(JPanel panel, JLabel label)
+    {
+        TextureLoader loader = new TextureLoader();
+        Point p = label.getLocation();
+        JLabel label1;
+        JLabel q = new JLabel(new ImageIcon(loader.loadTextures("C:\\Users\\Ilya\\Desktop\\testDir").get(7)));
+        for (int i = 0; i < panel.getComponentCount(); i++) {
+            label1 = (JLabel) panel.getComponent(i);
+            if (label.getLocation() == label1.getLocation())
+            {
+                label1.setIcon(q.getIcon());
+            }
+        }
+    }
+
+
     public void loadEmptyMap(JPanel mapPanel)
     {
         JLabel[][] map = createEmptyMap();
         int lx = 0;
+
         int ly = 0;
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
-                map[i][j].setBounds(lx,ly,32,32);
+                map[i][j].setBounds(lx, ly, 32, 32);
                 map[i][j].setTransferHandler(new TransferHandler("icon"));
                 map[i][j].addMouseListener(new MouseAdapter() {
                     public void mousePressed(MouseEvent evt) {
@@ -71,6 +90,18 @@ public class Map {
                     }
                 });
 
+                JPopupMenu popupMenu = new JPopupMenu();
+                JMenuItem item = new JMenuItem("Remove");
+                popupMenu.add(item);
+                map[i][j].add(popupMenu);
+                map[i][j].setComponentPopupMenu(popupMenu);
+                JLabel label = (JLabel) popupMenu.getParent();
+                item.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
 
                 mapPanel.add(map[i][j]);
                 lx += 32;
@@ -82,15 +113,14 @@ public class Map {
 
     public void fillMap(JPanel panel, JLabel label)
     {
-        JLabel labels = new JLabel();
-        Point p;
+        JLabel labels;
         for (int i = 0; i < panel.getComponentCount(); i++) {
             labels = (JLabel)panel.getComponent(i);
-            p = panel.getComponent(i).getLocation();
             labels.setIcon(label.getIcon());
-            labels.setLocation(p);
-            panel.add(labels);
+            panel.repaint();
         }
     }
+
+
 
 }

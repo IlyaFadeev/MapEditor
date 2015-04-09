@@ -40,16 +40,23 @@ public class EditorWindow extends JFrame {
             label.setBounds(5, posy, 32, 32);
             label.setTransferHandler(new TransferHandler("icon"));
             final JPopupMenu popupMenu = new JPopupMenu();
+            popupMenu.setName(Integer.toString(i));
             JMenuItem item = new JMenuItem("Fill");
             popupMenu.add(item);
+            label.add(popupMenu);
+            label.setInheritsPopupMenu(true);
+            label.setComponentPopupMenu(popupMenu);
+             final JLabel lab = (JLabel)popupMenu.getParent();
+
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    maper.fillMap(mapPanel, (JLabel)popupMenu.getParent());
-
+                    maper.fillMap(mapPanel,lab);
                 }
             });
-            label.setComponentPopupMenu(popupMenu);
+
+
+
             texturePanel.add(label);
 
 
@@ -67,11 +74,6 @@ public class EditorWindow extends JFrame {
 
             posy += 35;
         }
-
-
-
-
-
 
         maper.setHeight(50);
         maper.setWidth(50);
