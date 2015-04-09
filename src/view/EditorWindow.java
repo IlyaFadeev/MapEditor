@@ -73,8 +73,8 @@ public class EditorWindow extends JFrame {
 
 
 
-        maper.setHeight(100);
-        maper.setWidth(100);
+        maper.setHeight(50);
+        maper.setWidth(50);
         maper.loadEmptyMap(mapPanel);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setRightComponent(texturePanel);
