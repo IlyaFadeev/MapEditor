@@ -87,7 +87,6 @@ public class Map {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         romoveBlock(mapPanel, label);
-                        System.out.println("Ji");
                     }
                 });
                 popupMenu.add(item);
