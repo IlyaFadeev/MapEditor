@@ -46,30 +46,17 @@ public class Map {
                 label.setMinimumSize(new Dimension(32, 32));
                 label.setOpaque(true);
                 label.setForeground(Color.black);
-                map[i][j] = label;
+                map[i][j] = new JLabel();
             }
         }
 
         return map;
     }
 
-    public void romoveBlock(JPanel panel, JLabel label)
-    {
-        TextureLoader loader = new TextureLoader();
-        Point p = label.getLocation();
-        JLabel label1;
-        JLabel q = new JLabel(new ImageIcon(loader.loadTextures("C:\\Users\\Ilya\\Desktop\\testDir").get(7)));
-        for (int i = 0; i < panel.getComponentCount(); i++) {
-            label1 = (JLabel) panel.getComponent(i);
-            if (label.getLocation() == label1.getLocation())
-            {
-                label1.setIcon(q.getIcon());
-            }
-        }
-    }
 
 
-    public void loadEmptyMap(JPanel mapPanel)
+
+    public void loadEmptyMap(final JPanel mapPanel)
     {
         JLabel[][] map = createEmptyMap();
         int lx = 0;
@@ -92,17 +79,18 @@ public class Map {
 
                 JPopupMenu popupMenu = new JPopupMenu();
                 JMenuItem item = new JMenuItem("Remove");
-                popupMenu.add(item);
+
                 map[i][j].add(popupMenu);
                 map[i][j].setComponentPopupMenu(popupMenu);
-                JLabel label = (JLabel) popupMenu.getParent();
+                final JLabel label = (JLabel) popupMenu.getParent();
                 item.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        romoveBlock(mapPanel, label);
+                        System.out.println("Ji");
                     }
                 });
-
+                popupMenu.add(item);
                 mapPanel.add(map[i][j]);
                 lx += 32;
             }
@@ -121,6 +109,22 @@ public class Map {
         }
     }
 
+    public void romoveBlock(JPanel panel, JLabel label)
+    {
+        TextureLoader loader = new TextureLoader();
+        Point p = label.getLocation();
+        JLabel label1;
+        JLabel q = new JLabel(new ImageIcon(loader.loadTextures("C:\\Users\\Ilya\\Desktop\\testDir").get(0)));
+        for (int i = 0; i < panel.getComponentCount(); i++) {
+            label1 = (JLabel) panel.getComponent(i);
+            if (label.getX() == label1.getX() && label.getY() == label1.getY())
+            {
+                label1.setIcon(q.getIcon());
+                break;
+            }
+        }
 
+        panel.repaint();
+    }
 
 }
