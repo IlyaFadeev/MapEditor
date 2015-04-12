@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Ilya on 07.04.2015.
@@ -17,7 +18,7 @@ import java.util.*;
 public class EditorWindow extends JFrame {
 
     JSplitPane splitPane;
-    JPanel texturePanel;
+    public static JPanel texturePanel;
     TextureLoader loader = new TextureLoader();
     JLabel label;
     JPanel mapPanel;
@@ -25,10 +26,10 @@ public class EditorWindow extends JFrame {
     public EditorWindow()
     {
         super("Map Editor!");
-        int posy = 0;
+        int posy = 21;
         final model.Map maper = new Map();
         mapPanel = new JPanel();
-        mapPanel.setOpaque(true);
+        mapPanel.setOpaque(false);
         Image x = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
         java.util.List<Image> images = new ArrayList<Image>();
         images.addAll(loader.loadTextures("C:\\Users\\Ilya\\Desktop\\testDir"));
@@ -75,9 +76,40 @@ public class EditorWindow extends JFrame {
             posy += 35;
         }
 
-        maper.setHeight(25);
-        maper.setWidth(25);
+        final MapSaver saver = new MapSaver();
+        BufferedImage imageB = new BufferedImage(label.getIcon().getIconWidth(),label.getIcon().getIconHeight(),BufferedImage.TYPE_INT_RGB);
+        label.getIcon().paintIcon(mapPanel, imageB.getGraphics(), 0, 0);
+        texturePanel.setOpaque(false);
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Settings");
+        JMenuItem save = new JMenuItem("Save");
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saver.saveMap(mapPanel);
+            }
+        });
+        menu.add(save);
+        final MapLoader loader = new MapLoader();
+        JMenuItem open = new JMenuItem("Open");
+        open.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loader.loadMap(mapPanel);
+
+            }
+        });
+        menu.add(open);
+        menuBar.add(menu);
+        texturePanel.add(menuBar);
+        menuBar.setBounds(0,0,1000,20);
+        maper.setHeight(80);
+        maper.setWidth(80);
         maper.loadEmptyMap(mapPanel);
+        texturePanel.setAutoscrolls(true);
+        mapPanel.setAutoscrolls(true);
+        texturePanel.scrollRectToVisible(new Rectangle());
+        mapPanel.scrollRectToVisible(new Rectangle());
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setRightComponent(texturePanel);
         splitPane.setLeftComponent(mapPanel);

@@ -42,7 +42,7 @@ public class Map {
         images.addAll(loader.loadTextures("C:\\Users\\Ilya\\Desktop\\testDir"));
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                JLabel label = new JLabel(new ImageIcon(images.get(7)));
+                JLabel label = new JLabel(new ImageIcon(images.get(0)));
                 label.setMinimumSize(new Dimension(32, 32));
                 label.setOpaque(true);
                 label.setForeground(Color.black);
@@ -104,8 +104,8 @@ public class Map {
         for (int i = 0; i < panel.getComponentCount(); i++) {
             labels = (JLabel)panel.getComponent(i);
             labels.setIcon(label.getIcon());
-            panel.repaint();
         }
+        panel.repaint();
     }
 
     public void romoveBlock(JPanel panel, JLabel label)
