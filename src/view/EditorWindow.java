@@ -1,7 +1,5 @@
 package view;
 
-import javafx.scene.canvas.*;
-import javafx.scene.canvas.Canvas;
 import model.*;
 import model.Map;
 
@@ -10,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by Ilya on 07.04.2015.
